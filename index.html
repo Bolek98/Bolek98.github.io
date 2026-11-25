@@ -72,7 +72,22 @@ footer .wrap{display:flex;flex-wrap:wrap;gap:12px 28px;justify-content:space-bet
 footer a{color:#fff;font-weight:600}
 .note{font-size:13px;color:var(--mute);margin-top:14px}
 @media(max-width:700px){.split{grid-template-columns:minmax(0,1fr)}nav a.l{font-size:15px}}
-@media (prefers-reduced-motion:no-preference){.box{transition:transform .25s}.box:hover{transform:translateY(-6px)}}
+.box{cursor:pointer;outline:none;transform-box:fill-box;transform-origin:50% 100%}
+.box:focus-visible .boxface{stroke:#ffd447;stroke-width:4}
+@media (prefers-reduced-motion:no-preference){.box{transition:transform .25s}.box:hover,.box:focus-visible{transform:translateY(-8px) rotate(-1.5deg)}.box.pulled{transition:transform .35s cubic-bezier(.3,1.6,.5,1);transform:translateY(-34px) scale(1.07)}}
+.shelfhint{position:absolute;right:max(1vw,8px);top:6px;font-size:13px;color:#dbe6f5;opacity:.85;pointer-events:none}
+dialog.game{border:0;padding:0;border-radius:16px;max-width:min(560px,92vw);width:100%;background:var(--bg);color:var(--ink);box-shadow:0 30px 80px #0008}
+dialog.game::backdrop{background:#0b1220b3;backdrop-filter:blur(3px)}
+dialog.game img{display:block;width:100%;aspect-ratio:460/215;object-fit:cover;background:var(--blue2)}
+dialog.game .in{padding:18px 22px 22px}
+dialog.game h3{font-size:26px;margin:6px 0 8px}
+dialog.game p{margin:0 0 10px;color:var(--mute)}
+dialog.game .act{display:flex;flex-wrap:wrap;gap:10px;margin-top:16px}
+dialog.game .act a{display:inline-flex;align-items:center;min-height:44px;padding:10px 16px;border-radius:8px;font-weight:700;text-decoration:none;background:var(--blue);color:#fff}
+dialog.game .act a.sec{background:var(--card);color:var(--ink);box-shadow:inset 0 0 0 1px var(--line)}
+dialog.game .x{position:absolute;top:10px;right:10px;width:40px;height:40px;border-radius:99px;border:0;background:#000a;color:#fff;font-size:20px;cursor:pointer}
+dialog.game .cred{font-size:12px;opacity:.7;margin-top:14px}
+@media (prefers-reduced-motion:no-preference){dialog.game[open]{animation:pop .28s cubic-bezier(.3,1.4,.5,1)}@keyframes pop{from{transform:scale(.9) translateY(20px);opacity:0}}}
 </style>
 </head>
 <body>
@@ -93,7 +108,8 @@ footer a{color:#fff;font-weight:600}
     <a class="btn alt" href="#rimworld">Mody do RimWorldu</a>
   </div>
   <div class="fig" aria-label="Polička s hrami, na každé krabici česká vlajka">
-    <svg id="shelf" viewBox="0 0 1200 330" preserveAspectRatio="xMidYMax slice" role="img"></svg>
+    <svg id="shelf" viewBox="0 0 1200 330" preserveAspectRatio="xMidYMax slice" role="group" aria-label="Hry na poličce – klikni na krabici"></svg>
+    <span class="shelfhint">👆 Klikni na krabici</span>
   </div>
 </div></header>
 
@@ -152,6 +168,18 @@ footer a{color:#fff;font-weight:600}
   </div>
 </div></footer>
 
+<dialog class="game" id="gameDlg" aria-labelledby="gTitle">
+  <button class="x" type="button" aria-label="Zavřít" data-close>×</button>
+  <img id="gImg" alt="">
+  <div class="in">
+    <span class="st" id="gSt"></span>
+    <h3 id="gTitle"></h3>
+    <p id="gText"></p>
+    <div class="act"><a id="gGo" href="#"></a><a id="gSteam" class="sec" href="#" target="_blank" rel="noopener">Hra na Steamu ↗</a></div>
+    <p class="cred">Obrázek hry: Steam, © vydavatel hry. Bolkova dílna není s vydavateli nijak spojená.</p>
+  </div>
+</dialog>
+
 <script>
 {
 const esc=s=>String(s).replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]));
@@ -208,11 +236,20 @@ q.addEventListener("input",drawRw);
 drawCats();drawRw();
 
 /* shelf picture */
+const IMG="https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/";
 const boxes=[
- {t:"RIMWORLD",c1:"#c9a26b",c2:"#8f6b3e",w:190,h:250},
- {t:"ENSHROUDED",c1:"#3f7f8c",c2:"#20505b",w:170,h:270},
- {t:"GENERATION ZERO",c1:"#6c7a52",c2:"#3f4a2c",w:180,h:240},
- {t:"ANANTA",c1:"#c0466f",c2:"#7d2348",w:175,h:262}
+ {t:"RIMWORLD",c1:"#c9a26b",c2:"#8f6b3e",w:190,h:250,app:294100,img:IMG+"294100/76e0613b8197327299d5dbabb0a7fd7828a689a2/header.jpg",
+  name:"RimWorld",go:"#rimworld",goT:"Moje mody do RimWorldu",st:"ok",stT:()=>rw.filter(m=>m.s==="ok").length+" modů ke stažení",
+  text:()=>`Kolonie na cizí planetě a příběhy, které vypráví umělá inteligence. Udělal jsem do něj ${rw.length} modů pod značkou [B98]: výkon, chytřejší kolonisté, svět, boj i rozhraní. Všechny zdarma na Steam Workshopu.`},
+ {t:"ENSHROUDED",c1:"#3f7f8c",c2:"#20505b",w:170,h:270,app:1203620,img:IMG+"1203620/731368301f231d622bd0b1e34afd2afcd86a1dcf/header.jpg",
+  name:"Enshrouded",go:"#enshrouded",goT:"Mody do Enshrouded",st:"ok",stT:()=>"Mody + Mod Manager",
+  text:()=>"Survival RPG v zemi pohlcené mlhou. Mám pro něj mody na rychlejší levelování a širší nastavení světa a vlastní Enshrouded Mod Manager, který mody nainstaluje jedním kliknutím."},
+ {t:"GENERATION ZERO",c1:"#6c7a52",c2:"#3f4a2c",w:180,h:240,app:704270,img:IMG+"704270/header.jpg",
+  name:"Generation Zero",go:"#cestiny",goT:"Čeština do hry",st:"dev",stT:()=>"Čeština ve vývoji",
+  text:()=>"Švédský venkov v 80. letech plný nebezpečných robotů. Dělám kompletní češtinu, postupně po částech. Menu je hotové, zbytek přibývá. Bude jako instalátor .exe."},
+ {t:"ANANTA",c1:"#c0466f",c2:"#7d2348",w:175,h:262,app:4814120,img:IMG+"4814120/3bd40cfd93dfe6e7a21d9f825fa3b82ee1c57105/header.jpg",
+  name:"Ananta",go:"#cestiny",goT:"Čeština do hry",st:"plan",stT:()=>"Čeština plánovaná",
+  text:()=>"Městské open-world RPG, které vychází 15. ledna 2027. Češtinu chystám přes vlastní překryvné okno nad hrou, takže se nebude sahat do souborů hry."}
 ];
 const gap=34,total=boxes.reduce((a,b)=>a+b.w,0)+gap*(boxes.length-1);
 let x=(1200-total)/2,svg=`<defs><linearGradient id="lamp" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#ffffff" stop-opacity=".18"/><stop offset="1" stop-color="#ffffff" stop-opacity="0"/></linearGradient><linearGradient id="wood" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#a8713f"/><stop offset="1" stop-color="#6f4625"/></linearGradient></defs>`;
@@ -220,12 +257,14 @@ svg+=`<polygon points="380,0 820,0 1060,300 140,300" fill="url(#lamp)"/>`;
 const base=300;
 boxes.forEach((b,i)=>{
  const y=base-b.h,g=`g${i}`;
- svg+=`<g class="box"><defs><linearGradient id="${g}" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="${b.c1}"/><stop offset="1" stop-color="${b.c2}"/></linearGradient></defs>`;
+ svg+=`<g class="box" data-i="${i}" tabindex="0" role="button" aria-label="${b.name} – podrobnosti"><defs><linearGradient id="${g}" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="${b.c1}"/><stop offset="1" stop-color="${b.c2}"/></linearGradient><clipPath id="w${i}"><rect x="${x+16}" y="${y+18}" width="${b.w-32}" height="${b.h*0.48}" rx="4"/></clipPath></defs>`;
  svg+=`<rect x="${x+8}" y="${y+8}" width="${b.w}" height="${b.h}" rx="6" fill="#000" opacity=".25"/>`;
- svg+=`<rect x="${x}" y="${y}" width="${b.w}" height="${b.h}" rx="6" fill="url(#${g})"/>`;
+ svg+=`<rect class="boxface" x="${x}" y="${y}" width="${b.w}" height="${b.h}" rx="6" fill="url(#${g})"/>`;
  svg+=`<rect x="${x}" y="${y}" width="10" height="${b.h}" rx="3" fill="#fff" opacity=".18"/>`;
  svg+=`<rect x="${x+16}" y="${y+18}" width="${b.w-32}" height="${b.h*0.48}" rx="4" fill="#fff" opacity=".12"/>`;
  for(let k=0;k<5;k++)svg+=`<circle cx="${x+30+k*((b.w-60)/4)}" cy="${y+18+b.h*0.24}" r="${10+((i*7+k*5)%9)}" fill="#fff" opacity=".10"/>`;
+ svg+=`<image href="${b.img}" x="${x+16}" y="${y+18}" width="${b.w-32}" height="${b.h*0.48}" preserveAspectRatio="xMidYMid slice" clip-path="url(#w${i})"/>`;
+ svg+=`<rect x="${x+16}" y="${y+18}" width="${b.w-32}" height="${b.h*0.48}" rx="4" fill="none" stroke="#fff" stroke-opacity=".35" stroke-width="2"/>`;
  const fs=b.t.length>10?17:22;
  svg+=`<text x="${x+b.w/2}" y="${y+b.h*0.68}" text-anchor="middle" font-family="Chakra Petch,sans-serif" font-weight="700" font-size="${fs}" fill="#fff">${b.t}</text>`;
  svg+=`<text x="${x+b.w/2}" y="${y+b.h*0.68+24}" text-anchor="middle" font-family="Figtree,sans-serif" font-weight="600" font-size="14" fill="#fff" opacity=".85">${i<2?"mody [B98]":"čeština [B98]"}</text>`;
@@ -235,7 +274,30 @@ boxes.forEach((b,i)=>{
  x+=b.w+gap;
 });
 svg+=`<rect x="0" y="${base}" width="1200" height="18" fill="url(#wood)"/><rect x="0" y="${base}" width="1200" height="3" fill="#c48a52"/><rect x="0" y="${base+18}" width="1200" height="12" fill="#00000033"/>`;
-document.getElementById("shelf").innerHTML=svg;
+const shelf=document.getElementById("shelf");
+shelf.innerHTML=svg;
+
+/* klik na krabici: vytáhne se z poličky a otevře kartu hry */
+const dlg=document.getElementById("gameDlg");
+let pulled=null;
+const openGame=el=>{
+ const b=boxes[+el.dataset.i];
+ pulled=el; el.classList.add("pulled");
+ const [c,t]=[ST[b.st][0],b.stT()];
+ document.getElementById("gSt").className="st "+c;
+ document.getElementById("gSt").textContent=t;
+ document.getElementById("gTitle").textContent=b.name;
+ document.getElementById("gText").textContent=b.text();
+ const im=document.getElementById("gImg"); im.src=b.img; im.alt=b.name;
+ const go=document.getElementById("gGo"); go.href=b.go; go.textContent=b.goT+" →";
+ document.getElementById("gSteam").href="https://store.steampowered.com/app/"+b.app+"/";
+ setTimeout(()=>dlg.showModal(),matchMedia("(prefers-reduced-motion:reduce)").matches?0:220);
+};
+shelf.addEventListener("click",e=>{const el=e.target.closest(".box");if(el)openGame(el)});
+shelf.addEventListener("keydown",e=>{const el=e.target.closest(".box");if(el&&(e.key==="Enter"||e.key===" ")){e.preventDefault();openGame(el)}});
+dlg.addEventListener("click",e=>{if(e.target===dlg||e.target.closest("[data-close]"))dlg.close()});
+document.getElementById("gGo").addEventListener("click",()=>dlg.close());
+dlg.addEventListener("close",()=>{if(pulled){pulled.classList.remove("pulled");pulled.focus({preventScroll:true});pulled=null}});
 }
 </script>
 </body>
