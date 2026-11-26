@@ -7,7 +7,7 @@
 <link rel="icon" href="/favicon.ico" sizes="any">
 <link rel="apple-touch-icon" href="/apple-touch-icon.png">
 <link rel="manifest" href="/site.webmanifest">
-<meta name="theme-color" content="#0b2f57">
+<meta name="theme-color" content="#08101e">
 <title>Bolkova dílna</title>
 <meta name="description" content="Bolkova dílna – české překlady her, mody do RimWorldu a Enshrouded a užitečné programy zdarma, třeba Lumo (Dynamic Island pro Windows). Značka [B98].">
 <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -19,27 +19,36 @@
    COLOUR deep flag blue ground for the top band, white body, flag red accent, warm shelf wood
    TYPE Chakra Petch (box lettering) + Figtree
    LAYOUT laptop: title + links top-left, shelf picture full width under it; phone: title, shelf, sections stacked */
-:root{color-scheme:light dark;--bg:light-dark(#ffffff,#0b1220);--ink:light-dark(#0f1a2b,#e9eef7);--mute:light-dark(#4a5568,#a9b4c6);--blue:#11457e;--blue2:light-dark(#e8eef7,#14223a);--red:#d7141a;--card:light-dark(#f6f8fb,#111b2e);--line:light-dark(#dde3ec,#22314d);--wood:#8a5a32}
+:root{color-scheme:dark;--bg:#091120;--ink:#edf2fa;--mute:#a7b3c7;--blue:#1d5fae;--blue2:#14223a;--red:#e0262c;--card:#111c30;--line:#ffffff1a;--wood:#8a5a32;--glow:#5b8fe0}
 :root[data-theme=light]{color-scheme:light}:root[data-theme=dark]{color-scheme:dark}
 *{box-sizing:border-box;min-width:0}
 html{scroll-padding-top:72px;scroll-behavior:smooth}
-body{margin:0;background:var(--bg);color:var(--ink);font:16px/1.55 Figtree,system-ui,sans-serif;overflow-x:clip}
+body{margin:0;color:var(--ink);font:16px/1.55 Figtree,system-ui,sans-serif;overflow-x:clip;
+ background:
+  radial-gradient(1100px 700px at 8% 30%,#1d5fae38,transparent 62%),
+  radial-gradient(900px 650px at 95% 55%,#e0262c1f,transparent 60%),
+  radial-gradient(900px 700px at 40% 100%,#1d5fae2e,transparent 60%),
+  radial-gradient(circle at 1px 1px,#ffffff0f 1.1px,transparent 1.6px) 0 0/22px 22px,
+  var(--bg);
+ background-attachment:fixed}
 a{color:inherit}
 h1,h2,h3{font-family:"Chakra Petch",Figtree,sans-serif;line-height:1.05;letter-spacing:-.01em;margin:0;text-wrap:balance}
 .wrap{max-width:1240px;margin:0 auto}
 .band{padding:clamp(28px,4vw,64px) max(5vw,16px)}
-nav{position:sticky;top:0;z-index:5;background:#0b2f57;color:#fff;padding:10px max(5vw,16px)}
+nav{position:sticky;top:0;z-index:5;background:#08101ee6;backdrop-filter:blur(10px);color:#fff;padding:10px max(5vw,16px);border-bottom:1px solid #ffffff12}
+nav::after,footer::before{content:"";position:absolute;left:0;right:0;height:4px;background:linear-gradient(90deg,#11457e 0 22%,#fff 22% 61%,#e0262c 61%)}
+nav::after{bottom:-4px}
 nav .wrap{display:flex;gap:6px 18px;align-items:center;flex-wrap:wrap}
 nav .logo{font:700 20px "Chakra Petch",sans-serif;text-decoration:none;display:flex;align-items:center;gap:8px;margin-right:auto}
 nav a.l{text-decoration:none;padding:8px 4px;font-weight:600;opacity:.9}
 nav a.l:hover,nav a.l:focus-visible{opacity:1;text-decoration:underline;text-underline-offset:4px}
 .flag{display:inline-block;width:26px;height:17px;border-radius:2px;background:linear-gradient(#fff 0 50%,var(--red) 50%);position:relative;overflow:hidden;flex:none}
 .flag::before{content:"";position:absolute;inset:0;background:var(--blue);clip-path:polygon(0 0,50% 50%,0 100%)}
-.hero{color:#fff;padding-bottom:0;background:radial-gradient(circle at 1px 1px,#ffffff17 1.3px,transparent 1.8px) 0 0/22px 22px,linear-gradient(180deg,#0d386a,#11457e 55%,#0f3e72)}
-.hero h1{font-size:clamp(34px,5vw,52px);max-width:16ch}
+.hero{color:#fff;padding-bottom:0;background:radial-gradient(ellipse 70% 90% at 50% 100%,#2b6dc455,transparent 70%),linear-gradient(180deg,#0d2c55cc,#0e3466aa 60%,transparent)}
+.hero h1{font-size:clamp(36px,5.4vw,60px);max-width:16ch;text-shadow:0 4px 30px #0008}
 .hero p{font-size:17px;max-width:60ch;margin:14px 0 22px;color:#dbe6f5}
 .cta{display:flex;flex-wrap:wrap;gap:10px}
-.btn{display:inline-flex;align-items:center;gap:8px;min-height:44px;padding:10px 18px;border-radius:8px;font-weight:700;text-decoration:none;background:#fff;color:var(--blue)}
+.btn{display:inline-flex;align-items:center;gap:8px;min-height:44px;padding:10px 18px;border-radius:10px;font-weight:700;text-decoration:none;background:#fff;color:#0d2c55;box-shadow:0 6px 24px #0006}
 .btn.alt{background:transparent;color:#fff;box-shadow:inset 0 0 0 2px #ffffff88}
 .btn:focus-visible,.chip:focus-visible,input:focus-visible{outline:3px solid #ffd447;outline-offset:2px}
 .fig{position:relative;height:clamp(220px,30vw,330px);margin-top:28px}
@@ -47,11 +56,11 @@ nav a.l:hover,nav a.l:focus-visible{opacity:1;text-decoration:underline;text-und
 h2{font-size:clamp(28px,3.6vw,40px)}
 .lead{color:var(--mute);max-width:64ch;margin:10px 0 26px}
 .grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(min(100%,290px),1fr));gap:14px}
-.card{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:18px;display:flex;flex-direction:column;gap:8px}
+.card{background:linear-gradient(180deg,#14223a,#0f182a);border:1px solid var(--line);border-radius:14px;padding:18px;display:flex;flex-direction:column;gap:8px;box-shadow:0 10px 30px #0005}
 .card h3{font-size:20px}
 .card p{margin:0;color:var(--mute);font-size:15px}
 .card .foot{margin-top:auto;padding-top:8px;display:flex;gap:10px;flex-wrap:wrap;align-items:center}
-.card .foot a{font-weight:700;color:var(--blue);text-decoration-thickness:2px;text-underline-offset:3px}
+.card .foot a{font-weight:700;color:#8fb8f2;text-decoration-thickness:2px;text-underline-offset:3px}
 :root[data-theme=dark] .card .foot a{color:#8fb6ec}
 @media (prefers-color-scheme:dark){:root:not([data-theme=light]) .card .foot a{color:#8fb6ec}}
 .st{font-size:13px;font-weight:700;padding:3px 9px;border-radius:99px;white-space:nowrap;align-self:flex-start}
@@ -59,13 +68,13 @@ h2{font-size:clamp(28px,3.6vw,40px)}
 .st.dev{background:#e8a20022;color:light-dark(#8a5d00,#f2c15a)}
 .st.plan{background:var(--blue2);color:light-dark(var(--blue),#9fbde6)}
 .tools{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:16px}
-.tools input{font:16px Figtree,sans-serif;min-height:44px;padding:8px 14px;border-radius:8px;border:1px solid var(--line);background:var(--card);color:var(--ink);flex:1 1 220px}
-.chip{font:600 15px Figtree,sans-serif;min-height:44px;padding:8px 14px;border-radius:8px;border:1px solid var(--line);background:var(--card);color:var(--ink);cursor:pointer}
+.tools input{font:16px Figtree,sans-serif;min-height:44px;padding:8px 14px;border-radius:10px;border:1px solid var(--line);background:#0d1628;color:var(--ink);flex:1 1 220px}
+.chip{font:600 15px Figtree,sans-serif;min-height:44px;padding:8px 14px;border-radius:10px;border:1px solid var(--line);background:#0d1628;color:var(--ink);cursor:pointer}
 .chip[aria-pressed=true]{background:var(--blue);border-color:var(--blue);color:#fff}
 .empty{color:var(--mute);padding:20px 0}
-.alt{background:var(--blue2)}
+.alt{background:linear-gradient(180deg,transparent,#0c1830aa 12%,#0c1830aa 88%,transparent)}
 /* bannery sekcí s obrázkem hry */
-.banner{position:relative;border-radius:16px;overflow:hidden;min-height:clamp(180px,22vw,270px);display:flex;flex-direction:column;justify-content:flex-end;padding:clamp(18px,3vw,34px);margin-bottom:22px;color:#fff;background:#0b2f57 center 30%/cover no-repeat}
+.banner{position:relative;border-radius:18px;box-shadow:0 18px 50px #0007;border:1px solid #ffffff14;overflow:hidden;min-height:clamp(180px,22vw,270px);display:flex;flex-direction:column;justify-content:flex-end;padding:clamp(18px,3vw,34px);margin-bottom:22px;color:#fff;background:#0b2f57 center 30%/cover no-repeat}
 .banner::before{content:"";position:absolute;inset:0;background:linear-gradient(90deg,#071a33f0 0%,#071a33b8 48%,#071a3326 100%),linear-gradient(0deg,#071a33aa,transparent 55%)}
 .banner>*{position:relative}
 .banner h2{color:#fff}
@@ -78,7 +87,7 @@ h2{font-size:clamp(28px,3.6vw,40px)}
 .card .body{padding:16px 18px 18px;display:flex;flex-direction:column;gap:8px;flex:1}
 .card .cat{font-size:13px;color:var(--mute)}
 /* Lumo */
-.feature{background:var(--card);border:1px solid var(--line);border-radius:16px;overflow:hidden;margin-bottom:14px}
+.feature{background:linear-gradient(180deg,#14223a,#0f182a);box-shadow:0 10px 30px #0005;border:1px solid var(--line);border-radius:16px;overflow:hidden;margin-bottom:14px}
 .feature .vis{display:flex;align-items:center;justify-content:center;gap:clamp(16px,3vw,30px);flex-wrap:wrap;padding:30px 20px;background:radial-gradient(circle at 1px 1px,#ffffff12 1.2px,transparent 1.7px) 0 0/18px 18px,radial-gradient(ellipse at 50% 120%,#8c9cff40,transparent 60%),#0a1424}
 .feature .vis img{width:84px;height:84px}
 .feature .body{padding:18px 20px 20px}
@@ -96,10 +105,11 @@ h2{font-size:clamp(28px,3.6vw,40px)}
 @media (prefers-reduced-motion:no-preference){.island .eq i{animation:eq .42s ease-in-out infinite alternate}.island .eq i:nth-child(2){animation-duration:.31s}.island .eq i:nth-child(3){animation-duration:.47s}.island .eq i:nth-child(4){animation-duration:.36s}@keyframes eq{from{transform:scaleY(.3)}to{transform:scaleY(1)}}}
 /* návod */
 .how{list-style:none;padding:0;margin:0}
-.how li{padding:14px 16px 14px 18px;margin-bottom:10px;background:var(--card);border:1px solid var(--line);border-left:4px solid var(--blue);border-radius:10px}
+.how li{padding:14px 16px 14px 18px;margin-bottom:10px;background:#111c30;border:1px solid var(--line);border-left:4px solid var(--blue);border-radius:10px}
 .how li:last-child{border-left-color:var(--red)}
 .split{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:clamp(16px,3vw,40px);align-items:start}
-footer{background:#0b2f57;color:#dbe6f5}
+footer{position:relative;background:#060c18;color:#c9d6ea}
+footer::before{top:0}
 footer .wrap{display:flex;flex-wrap:wrap;gap:12px 28px;justify-content:space-between;align-items:center}
 footer a{color:#fff;font-weight:600}
 .note{font-size:13px;color:var(--mute);margin-top:14px}
